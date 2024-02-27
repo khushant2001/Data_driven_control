@@ -26,8 +26,12 @@ Finally, the construction of the flows is performed by choosing a certain number
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/ab65bed5-df53-49bd-9f9c-f675f4b9e0e7)
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/96593a46-84d4-481b-a1ed-6aa8f1f06463)
+A video of the reconstruction of the flows can be found in the files attached in the repository. 
 
 # 2. Using Dynamic Mode Decomposition to recreate the fluid flow over an airfoil!
-A video of the reconstruction of the flows can be found in the files attached in the repository. 
+
+$X' = AX$
+$x_(k+1) = Ax_k$
+
 
 
