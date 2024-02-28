@@ -31,7 +31,19 @@ A video of the reconstruction of the flows can be found in the files attached in
 # 2. Using Dynamic Mode Decomposition to recreate the fluid flow over an airfoil!
 
 $$
-\int_{-\infty}^{\infty} e^{-x^2} \, dx = \sqrt{\pi}
+X' = A * X
+A = X' * X^{-1}
+$$
+
+$$
+X = U * \Sigma * V*
+X' = A * U * \Sigma * V*
+A\sig = U * X' * V * \Sigma^{-1} = U* * A * U
+$$
+
+$$
+A\sig * \lambda = \lambda * W
+\phi = X' * V * \Sigma^{-1} * \lambda
 $$
 
 
