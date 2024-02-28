@@ -40,7 +40,7 @@ $$
 Since the matrix X is not always square, Singular Value Decomposition from above is used to find the pseudo-inverse. Equations below show expansion of the matrix X based on SVD and its inverse in terms of the individual matrix. Another important characteristic about DMD is that it finds a matrix called A tilda which is much smaller in size as compared to the original A but has the same eigenvalues. This decreases the computation cost by a lot.  
 
 $$
-X = U * \Sigma * V*
+X = U * \Sigma * V*\
 X' = A * U * \Sigma * V*
 A\sim = U * X' * V * \Sigma^{-1} = U* * A * U
 $$
