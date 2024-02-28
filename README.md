@@ -31,11 +31,14 @@ A video of the reconstruction of the flows can be found in the files attached in
 # 2. Using Dynamic Mode Decomposition to recreate the fluid flow over an airfoil!
 
 Dynamic mode decomposition tries to find the best fit "linear operator" which can predict the next state of the system. Consider 'X' to be the state of the system at time t=k and "X'" to be the state at k+1, then DMD finds the A that can satsify the equations listed below. By taking the inverse of X', A can be determined. 
+
 $$
 X' = A * X
 A = X' * X^{-1}
 $$
+
 Since the matrix X is not always square, Singular Value Decomposition from above is used to find the pseudo-inverse. Equations below show expansion of the matrix X based on SVD and its inverse in terms of the individual matrix. Another important characteristic about DMD is that it finds a matrix called A tilda which is much smaller in size as compared to the original A but has the same eigenvalues. This decreases the computation cost by a lot.  
+
 $$
 X = U * \Sigma * V*
 X' = A * U * \Sigma * V*
@@ -43,6 +46,7 @@ A\sim = U * X' * V * \Sigma^{-1} = U* * A * U
 $$
 
 Once A tilda is know, its eigenvalues (W) can be calculated which are same as A and then the eigenvectors of A which are labelled as phi can be determined through back calculation using lambda.  
+
 $$
 A\sim * \lambda = \lambda * W
 \phi = X' * V * \Sigma^{-1} * \lambda
