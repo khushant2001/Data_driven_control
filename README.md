@@ -61,6 +61,8 @@ Subjecting to DMD analysis, the amplitudes of the modes are derived and the plot
 Also, the contour plot for the first 4 modes along with their frequency is given below: 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/9cdd2b8f-059f-40f5-a512-b22349c429e8)
 
+Finally, the reconstruction of the fluid flow is performed using the DMD Algorithm and the following the comparison: 
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/ff2f27e4-d759-46b6-b774-48ff3b24ab54)
 
 
 
