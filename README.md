@@ -64,7 +64,7 @@ Also, the contour plot for the first 4 modes along with their frequency is given
 Finally, the reconstruction of the fluid flow is performed using the DMD Algorithm and the following the comparison: 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/ff2f27e4-d759-46b6-b774-48ff3b24ab54)
 
-![Watch the video](FluidFlowReconstruction_DMD.mp4)
+[!Watch the video](FluidFlowReconstruction_DMD.mp4)
 
 
 ## 3. Using Sparse Identification of Non-Linear Dynamics (Sindy) to approximate the differential equationss for the flow fields.
