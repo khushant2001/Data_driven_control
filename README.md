@@ -26,7 +26,7 @@ Finally, the construction of the flows is performed by choosing a certain number
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/ab65bed5-df53-49bd-9f9c-f675f4b9e0e7)
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/96593a46-84d4-481b-a1ed-6aa8f1f06463)
-A video of the reconstruction of the flows can be found in the files attached in the repository. 
+A [video](FluidFlowReconstruction_SVD.mp4) of the reconstruction of the flows can be found in the files attached in the repository. 
 
 # 2. Using Dynamic Mode Decomposition to recreate the fluid flow over an airfoil!
 
@@ -64,7 +64,7 @@ Also, the contour plot for the first 4 modes along with their frequency is given
 Finally, the reconstruction of the fluid flow is performed using the DMD Algorithm and the following the comparison: 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/ff2f27e4-d759-46b6-b774-48ff3b24ab54)
 
-[!Watch the video](FluidFlowReconstruction_DMD.mp4)
+[Watch the video](FluidFlowReconstruction_DMD.mp4)
 
 
 ## 3. Using Sparse Identification of Non-Linear Dynamics (Sindy) to approximate the differential equationss for the flow fields.
