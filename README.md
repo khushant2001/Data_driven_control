@@ -79,7 +79,7 @@ Finally, the reconstruction of the fluid flow is performed using the DMD Algorit
 [Watch the video](FluidFlowReconstruction_DMD.mp4)
 
 
-## 3. Using Sparse Identification of Non-Linear Dynamics (Sindy) to approximate the differential equationss for the flow fields.
+# 3. Using Sparse Identification of Non-Linear Dynamics (Sindy) to approximate the differential equations for the flow fields.
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/30c31eea-a137-415e-acb4-fbd71c2d388c)
 
