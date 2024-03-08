@@ -71,5 +71,6 @@ Finally, the reconstruction of the fluid flow is performed using the DMD Algorit
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/30c31eea-a137-415e-acb4-fbd71c2d388c)
 
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/46e38a60-2446-461b-824d-778bac87712c)
 
 
