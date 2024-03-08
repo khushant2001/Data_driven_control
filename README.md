@@ -33,7 +33,10 @@ A [video](FluidFlowReconstruction_SVD.mp4) of the reconstruction of the flows ca
 Dynamic mode decomposition tries to find the best fit "linear operator" which can predict the next state of the system. Consider 'X' to be the state of the system at time t=k and "X'" to be the state at k+1, then DMD finds the A that can satsify the equations listed below. By taking the inverse of X', A can be determined. 
 
 $$
-\[X' = A * X\]\\
+\[X' = A * X\]
+$$
+
+$$
 \[A = X' * X^{-1}\]
 $$
 
