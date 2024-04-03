@@ -85,4 +85,15 @@ Finally, the reconstruction of the fluid flow is performed using the DMD Algorit
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/46e38a60-2446-461b-824d-778bac87712c)
 
+# 4. Eigensystem Realization Algorithm (ERA)
 
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/c1d06d41-6d2b-480b-a903-6dc53d15a4c9)
+
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/22efa4f7-96e3-4e44-9ef2-29b5e0b53331)
+
+Effects of addition of white noise
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/68001cd2-2a6b-4af2-b1d0-5cc125229b1e)
+
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/3c3d6f50-45ea-400f-9e70-9dfb28aecc0c)
+
+Ef
