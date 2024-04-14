@@ -86,6 +86,51 @@ Finally, the reconstruction of the fluid flow is performed using the DMD Algorit
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/46e38a60-2446-461b-824d-778bac87712c)
 
 # 4. Eigensystem Realization Algorithm (ERA)
+ERA is a data based analysis of a system which is capable of determining the discrete state space matrices: A, B, & C using the impulse response. Accordingly, the the system can be described as follows: 
+
+$$
+x_\text{k+1} = A_d x_k + B_d u_k 
+$$
+
+$$
+y_k = C_d x_k
+$$
+
+$$
+u_k = \delta(t)
+$$
+
+By writing out the response of the system with initial conditions to be 0, the output can be characteristed by 
+
+$$
+y_k = C_d A_d ^ {k-1}B_d
+$$
+
+Following this the Henkel matrices -H and H' - are generated and the SVD is taken to convert the model from high to low dimensional model. A, B, and C matrices are generated using the following:
+
+$$
+SVD(H) = U \sigma V^{*}
+$$
+
+$$
+A = \sigma^{-.5} U^{T} H' V \sigma^{.5}
+$$
+
+$$
+B = \sigma^{.5} U^{T} H 
+$$
+
+$$
+C = H V \sigma^{.5}
+$$
+
+To understand this approximation, ERA is tried on the transfer function decribing the Atomic Force Microscope. The corresponding transfer function is given below: 
+
+$$
+G = \frac{kw_2^2w_3^2w_5^2(s^2+2\zeta_1w_1s+w1^2)(s^2+2\zeta_4w_4s+w_4^2)exp(-s\tau)}{w_1^2w_4^2(s^2 + 2\zeta_2w_2s + w_2^2)(s^2 + 2\zeta_3w_3s + w_3^2)(s^2 + 2\zeta_5w_5s + w_5^2)}
+$$
+
+The impulse response of the system is determined (also shown below) and hankel matrices are generated. 
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/c1d06d41-6d2b-480b-a903-6dc53d15a4c9)
 
