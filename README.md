@@ -87,7 +87,20 @@ Finally, the reconstruction of the fluid flow is performed using the DMD Algorit
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/46e38a60-2446-461b-824d-778bac87712c)
 
-# 4. Eigensystem Realization Algorithm (ERA)
+# 4. Using Sindy to derive the dynamic model for a mass-spring-damper system and designing PID controller using the model. 
+
+Sindy is a sparse identification technique to derive a linear combination of basis functions and reconstruct the data field. A simple mass-spring-damper system is subjected to Sindy and the spring and damper stiffness are back calculated from the coefficients given through Sindy. The parameters used are given below: k = 10 N/m, b = 20 N/(m^2 sec), and m = 1 kg. The original differential equation is stated as follows. Moreover, a sinusoidal force is applied to the system and the position and velocity are recorded. 
+
+$$
+\ddot(x) = \frac{F(t)}{m} - b\dot(x) - kx
+$$
+
+The data collected is subjected to Sindy and the sparsification know is adjusted to get the correct sparse model. The results of this tuning are given below. Using lambda = 0.01, the following coefficients are determined.
+
+![mass_spring_sindy](https://github.com/khushant2001/Data_driven_control/assets/70731991/a28a1b8d-e334-43d4-9322-6fdd29116c4f)
+![mass_spring_sindy_coeff](https://github.com/khushant2001/Data_driven_control/assets/70731991/a4fc5826-90a1-4b4c-80c8-152e26ce109d)
+
+# 5. Eigensystem Realization Algorithm (ERA)
 ERA is a data based analysis of a system which is capable of determining the discrete state space matrices: A, B, & C using the impulse response. Accordingly, the the system can be described as follows: 
 
 $$
@@ -145,6 +158,6 @@ To see the effects of the addition of the white to the system, random normal gau
 
 ![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/3c3d6f50-45ea-400f-9e70-9dfb28aecc0c)
 
-# 5. Using Sindy to design a MPC for a Flight Controller
+# 6. Using Sindy to design a MPC for a Flight Controller
 
 The dataset used can be found here: [here](https://c3.ndc.nasa.gov/dashlink/resources/294/)
