@@ -13,33 +13,68 @@ clc
 close all 
 clear
 
+%% Importing Dataset!
+[data_import,~,~] = xlsread("flight_data.xlsx");
+time = data_import(:,1);
+dt = time(end)/length(data_import);
+data = data_import(:,5:10);
+u = data_import(1:end-1,11:end);
 
-data = importdata("AIL_test_M02.mat");
-data_matrix = [];
-
-for i = 1:25
-    column = reshape(data{i}, 180000,1);
-    data_matrix(:,i) = column;
-end
-
-meanSub = 0;
-if meanSub
-    dataMean = mean(data_matrix,2);
-    data = data_matrix-dataMean*ones(1,nt);
-end
-
-%% Calculating derivative of data
-X_dot = diff(data_matrix,1,1)/.01;
-data_matrix(end,:) = [];
+%% Constructing functions for Sindy
+data_dot = diff(data,1,1)/dt;
+data(end,:) = [];
 
 %% Build library and compute sparse regression
-n = 4;
-Theta = poolData(data_matrix,n,2); % up to third order polynomials
-lambda = .0139; % lambda is our sparsificat ion knob.
-Xi = sparsifyDynamics(Theta,X_dot, lambda,n);
-new_x_dot = Theta*Xi;
 
-%% Function definitions
+n=6;
+Theta = [ones(length(data),1),data(:,1),data(:,2),data(:,3),data(:,4),data(:,5),data(:,6),data(:,4).*data(:,5),data(:,5).*data(:,6),data(:,4).*data(:,6),sin(data(:,1)),sin(data(:,2)),sin(data(:,3)),cos(data(:,1)),cos(data(:,2)),cos(data(:,3)),u(:,1),u(:,2),u(:,3),u(:,4),u(:,5),u(:,5).^2];
+lambda = .1; % lambda is our sparsificat ion knob.
+Xi = sparsifyDynamics(Theta,data_dot, lambda,n);
+functions = ["1","phi","theta","psi","p","q","r","pq","qr","pr","sin(phi)","sin(theta)","sin(psi)","cos(phi)","cos(theta)","cos(psi)","delta_a","delta_e","delta_r","delta_t","V_a","V_a^2"]';
+heading = ["Basis Functions","phi_dot","theta_dot","psi_dot","p_dot","q_dot","r_dot"];
+coefficients = [functions,Xi];
+coefficients = vertcat(heading,coefficients);
+disp(coefficients)
+
+%% Plotting data to optimize the lambda. 
+
+new_x_dot = Theta*Xi;
+for i = 1:6
+    y_new = cumtrapz(.01,new_x_dot(:,i));
+    y_new = y_new + data(1,i);
+    subplot(3,3,i)
+    plot(time(1:end-1),y_new, lineWidth = 2)
+    hold on 
+    plot(time(1:end-1), data(:,i), LineWidth = 2)
+    legend('SINDY Approximation', 'Original')
+    title([functions(i+1), " approximation using Sindy"])
+    ylabel("Attitude info [deg]")
+    xlabel("Time [sec]")
+    grid on
+end
+
+%% Designing MPC 
+%{
+Ts = dt; % Sampling time (adjust as needed)
+N = 10; % Prediction horizon
+M = 2; % Control horizon
+
+% Create MPC object
+mpcobj = mpc(new_x_dot, Ts, N, M);
+
+% Specify constraints, weights, and other MPC parameters
+mpcobj.MV = struct('Min', MinValue, 'Max', MaxValue);
+mpcobj.OutputVariables = 'omega'; % Assuming you want to control angular velocity
+
+% Step 4: Simulation and Validation
+% Simulate MPC controller with your system model and data
+simulator = sim(mpcobj, omega_data); % Simulate with angular velocity data
+
+% Plot results
+plot(simulator);
+%}
+%% Function Definitions!
+
 function Xi = sparsifyDynamics(Theta,dXdt , lambda,n)
     % Compute Sparse regression: sequent ial least squares
     Xi = Theta\dXdt ; % Initial guess: Least-squares
@@ -53,167 +88,4 @@ function Xi = sparsifyDynamics(Theta,dXdt , lambda,n)
             Xi (biginds, ind) = Theta( : ,biginds) \dXdt ( : , ind) ;
         end
     end
-end
-function yout = poolData(yin,nVars,polyorder)
-% Copyright 2015, All Rights Reserved
-% Code by Steven L. Brunton
-% For Paper, "Discovering Governing Equations from Data: 
-%        Sparse Identification of Nonlinear Dynamical Systems"
-% by S. L. Brunton, J. L. Proctor, and J. N. Kutz
-
-n = size(yin,1);
-% yout = zeros(n,1+nVars+(nVars*(nVars+1)/2)+(nVars*(nVars+1)*(nVars+2)/(2*3))+11);
-
-ind = 1;
-% poly order 0
-yout(:,ind) = ones(n,1);
-ind = ind+1;
-
-% poly order 1
-for i=1:nVars
-    yout(:,ind) = yin(:,i);
-    ind = ind+1;
-end
-
-if(polyorder>=2)
-    % poly order 2
-    for i=1:nVars
-        for j=i:nVars
-            yout(:,ind) = yin(:,i).*yin(:,j);
-            ind = ind+1;
-        end
-    end
-end
-
-if(polyorder>=3)
-    % poly order 3
-    for i=1:nVars
-        for j=i:nVars
-            for k=j:nVars
-                yout(:,ind) = yin(:,i).*yin(:,j).*yin(:,k);
-                ind = ind+1;
-            end
-        end
-    end
-end
-
-if(polyorder>=4)
-    % poly order 4
-    for i=1:nVars
-        for j=i:nVars
-            for k=j:nVars
-                for l=k:nVars
-                    yout(:,ind) = yin(:,i).*yin(:,j).*yin(:,k).*yin(:,l);
-                    ind = ind+1;
-                end
-            end
-        end
-    end
-end
-
-if(polyorder>=5)
-    % poly order 5
-    for i=1:nVars
-        for j=i:nVars
-            for k=j:nVars
-                for l=k:nVars
-                    for m=l:nVars
-                        yout(:,ind) = yin(:,i).*yin(:,j).*yin(:,k).*yin(:,l).*yin(:,m);
-                        ind = ind+1;
-                    end
-                end
-            end
-        end
-    end
-end
-end
-
-function yout = poolDataLIST(yin,ahat,nVars,polyorder)
-% Copyright 2015, All Rights Reserved
-% Code by Steven L. Brunton
-% For Paper, "Discovering Governing Equations from Data: 
-%        Sparse Identification of Nonlinear Dynamical Systems"
-% by S. L. Brunton, J. L. Proctor, and J. N. Kutz
-
-n = size(yin,1);
-
-ind = 1;
-% poly order 0
-yout{ind,1} = ['1'];
-ind = ind+1;
-
-% poly order 1
-for i=1:nVars
-    yout(ind,1) = yin(i);
-    ind = ind+1;
-end
-
-if(polyorder>=2)
-    % poly order 2
-    for i=1:nVars
-        for j=i:nVars
-            yout{ind,1} = [yin{i},yin{j}];
-            ind = ind+1;
-        end
-    end
-end
-
-if(polyorder>=3)
-    % poly order 3
-    for i=1:nVars
-        for j=i:nVars
-            for k=j:nVars
-                yout{ind,1} = [yin{i},yin{j},yin{k}];
-                ind = ind+1;
-            end
-        end
-    end
-end
-
-if(polyorder>=4)
-    % poly order 4
-    for i=1:nVars
-        for j=i:nVars
-            for k=j:nVars
-                for l=k:nVars
-                    yout{ind,1} = [yin{i},yin{j},yin{k},yin{l}];
-                    ind = ind+1;
-                end
-            end
-        end
-    end
-end
-
-if(polyorder>=5)
-    % poly order 5
-    for i=1:nVars
-        for j=i:nVars
-            for k=j:nVars
-                for l=k:nVars
-                    for m=l:nVars
-                        yout{ind,1} = [yin{i},yin{j},yin{k},yin{l},yin{m}];
-                        ind = ind+1;
-                    end
-                end
-            end
-        end
-    end
-end
-
-
-
-
-output = yout;
-newout(1) = {''};
-for k=1:length(yin)
-    newout{1,1+k} = [yin{k},'dot'];
-end
-% newout = {'','xdot','ydot','udot'};
-for k=1:size(ahat,1)
-    newout(k+1,1) = output(k);
-    for j=1:length(yin)
-        newout{k+1,1+j} = ahat(k,j);
-    end
-end
-newout;
 end
