@@ -160,4 +160,9 @@ To see the effects of the addition of the white to the system, random normal gau
 
 # 6. Using Sindy to design a MPC for a Flight Controller
 
-The dataset used can be found here: [here](https://c3.ndc.nasa.gov/dashlink/resources/294/)
+The dataset used can be found attached to the github, labelled as "flight_data.xlsx". 
+
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/b6eea5cb-e812-47a4-b83d-bb3794797346)
+
+![image](https://github.com/khushant2001/Data_driven_control/assets/70731991/140006fb-51a5-46bc-903e-00cc8ba129b5)
+
