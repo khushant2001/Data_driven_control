@@ -14,7 +14,7 @@ close all
 clear
 
 %% Importing Dataset!
-[data_import,~,~] = xlsread("flight_data.xlsx");
+[data_import,~,~] = xlsread("output.xlsx");
 time = data_import(:,1);
 dt = time(end)/length(data_import);
 data = data_import(:,5:10);
@@ -27,10 +27,10 @@ data(end,:) = [];
 %% Build library and compute sparse regression
 
 n=6;
-Theta = [ones(length(data),1),data(:,1),data(:,2),data(:,3),data(:,4),data(:,5),data(:,6),data(:,4).*data(:,5),data(:,5).*data(:,6),data(:,4).*data(:,6),sin(data(:,1)),sin(data(:,2)),sin(data(:,3)),cos(data(:,1)),cos(data(:,2)),cos(data(:,3)),u(:,1),u(:,2),u(:,3),u(:,4),u(:,5),u(:,5).^2];
+Theta = [ones(length(data),1),data(:,1),data(:,2),data(:,3),data(:,4),data(:,5),data(:,6),data(:,4).*data(:,5),data(:,5).*data(:,6),data(:,4).*data(:,6),sin(data(:,1)),sin(data(:,2)),sin(data(:,3)),cos(data(:,1)),cos(data(:,2)),cos(data(:,3)),u(:,1),u(:,2),u(:,3)];
 lambda = .1; % lambda is our sparsificat ion knob.
 Xi = sparsifyDynamics(Theta,data_dot, lambda,n);
-functions = ["1","phi","theta","psi","p","q","r","pq","qr","pr","sin(phi)","sin(theta)","sin(psi)","cos(phi)","cos(theta)","cos(psi)","delta_a","delta_e","delta_r","delta_t","V_a","V_a^2"]';
+functions = ["1","phi","theta","psi","p","q","r","pq","qr","pr","sin(phi)","sin(theta)","sin(psi)","cos(phi)","cos(theta)","cos(psi)","mx","my","mz"]';
 heading = ["Basis Functions","phi_dot","theta_dot","psi_dot","p_dot","q_dot","r_dot"];
 coefficients = [functions,Xi];
 coefficients = vertcat(heading,coefficients);
@@ -60,7 +60,7 @@ N = 10; % Prediction horizon
 M = 2; % Control horizon
 
 % Create MPC object
-mpcobj = mpc(new_x_dot, Ts, N, M);
+%mpcobj = mpc(new_x_dot, Ts, N, M);
 %{
 % Specify constraints, weights, and other MPC parameters
 mpcobj.MV = struct('Min', MinValue, 'Max', MaxValue);
